@@ -292,7 +292,11 @@ def play_tts_button(text: str, key: str):
     if st.button("🔊 Écouter", key=btn_key):
         audio_bytes = text_to_speech(text)
         if audio_bytes:
-            st.audio(audio_bytes, format="audio/mp3", autoplay=True)
+            # Compatibilité avec les anciennes versions de Streamlit
+            try:
+                st.audio(audio_bytes, format="audio/mp3", autoplay=True)
+            except TypeError:
+                st.audio(audio_bytes, format="audio/mp3")
         else:
             st.warning("Synthèse vocale temporairement indisponible.")
 
